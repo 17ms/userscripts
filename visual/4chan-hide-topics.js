@@ -2,6 +2,7 @@
 // @name        Hide topics from catalog - 4chan.org
 // @namespace   Violentmonkey Scripts
 // @match       *://boards.4channel.org/*/catalog
+// @match       *://boards.4chan.org/*/catalog
 // @version     1.0
 // ==/UserScript==
 
