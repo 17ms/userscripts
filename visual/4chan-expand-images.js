@@ -1,8 +1,8 @@
 // ==UserScript==
 // @name        Expand all images - 4chan.org
 // @namespace   Violentmonkey Scripts
-// @match       *://boards.4channel.org/*
-// @match       *://boards.4chan.org/*
+// @match       *://boards.4channel.org/*/thread/*
+// @match       *://boards.4chan.org/*/thread/*
 // @version     1.0
 // ==/UserScript==
 
