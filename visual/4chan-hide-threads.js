@@ -6,18 +6,16 @@
 // @version     1.0
 // ==/UserScript==
 
-
 window.addEventListener("load", function () {
-    const keywords = [] // e.g. ["/sdg/", "luke smith"]
-    const data = document.getElementsByClassName("teaser")
+  const keywords = [] // e.g. ["/sdg/", "luke smith"]
+  const data = document.getElementsByClassName("teaser")
 
-    for (let i = 0; i < data.length; ++i) {
-        let inner_txt = data[i].innerText
-        for (let j = 0; j < keywords.length; ++j) {
-            if (inner_txt.includes(keywords[j])) {
-                data[i].offsetParent.style.display = "none"
-            }
-        }
+  for (let i = 0; i < data.length; ++i) {
+    let inner_txt = data[i].innerText
+    for (let j = 0; j < keywords.length; ++j) {
+      if (inner_txt.includes(keywords[j])) {
+        data[i].offsetParent.style.display = "none"
+      }
     }
+  }
 })
-
