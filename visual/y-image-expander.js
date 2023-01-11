@@ -1,5 +1,5 @@
 // ==UserScript==
-// @name        Expand all images - ylilauta.org
+// @name        General media expander
 // @namespace   Violentmonkey Scripts
 // @match *://ylilauta.org/*
 // @version     1.0

@@ -1,5 +1,5 @@
 // ==UserScript==
-// @name        Hide threads with certain keywords from catalog - 4chan.org
+// @name        Keyword based thread hider
 // @namespace   Violentmonkey Scripts
 // @match       *://boards.4channel.org/*/catalog
 // @match       *://boards.4chan.org/*/catalog

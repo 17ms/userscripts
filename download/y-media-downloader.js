@@ -1,5 +1,5 @@
 // ==UserScript==
-// @name        Download media - ylilauta.org
+// @name        General media downloader
 // @namespace   Violentmonkey Scripts
 // @match       *://ylilauta.org/*
 // @version     1.0

@@ -1,5 +1,5 @@
 // ==UserScript==
-// @name        Expand all images - 4chan.org
+// @name        General media expander
 // @namespace   Violentmonkey Scripts
 // @match       *://boards.4channel.org/*/thread/*
 // @match       *://boards.4chan.org/*/thread/*
