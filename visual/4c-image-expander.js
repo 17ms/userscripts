@@ -6,7 +6,7 @@
 // @version     1.0
 // ==/UserScript==
 
-window.toggle_images = function () {
+window.toggleImgs = () => {
   const data = document.getElementsByClassName("fileThumb")
 
   for (let i = 0; i < data.length; ++i) {
@@ -21,5 +21,5 @@ window.toggle_images = function () {
   }
 }
 
-const parent_element = document.getElementsByClassName("navLinks desktop")[0]
-parent_element.innerHTML += " [<a href='javascript:toggle_images()'>Toggle</a>]"
+const parentElem = document.getElementsByClassName("navLinks desktop")[0]
+parentElem.innerHTML += " [<a href='javascript:toggleImgs()'>Toggle</a>]"

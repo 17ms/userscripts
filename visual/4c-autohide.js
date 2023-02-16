@@ -6,14 +6,14 @@
 // @version     1.0
 // ==/UserScript==
 
-window.addEventListener("load", function () {
+window.addEventListener("load", () => {
   const keywords = [] // e.g. ["/sdg/", "luke smith"]
   const data = document.getElementsByClassName("teaser")
 
   for (let i = 0; i < data.length; ++i) {
-    let inner_txt = data[i].innerText
+    let innerText = data[i].innerText
     for (let j = 0; j < keywords.length; ++j) {
-      if (inner_txt.includes(keywords[j]) && data[i].offsetParent !== null) {
+      if (innerText.includes(keywords[j]) && data[i].offsetParent !== null) {
         data[i].offsetParent.style.display = "none"
       }
     }
