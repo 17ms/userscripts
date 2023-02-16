@@ -7,60 +7,62 @@
 // @version     1.0
 // ==/UserScript==
 
+// TODO: buttons: dl & source, kb shortcuts, improved resizing, webm exclusion
+
 const dragElement = (elem) => {
-    const dragMouseDown = (e) => {
-        e = e || window.event
-        e.preventDefault()
-        pos3 = e.clientX
-        pos4 = e.clientY
-        document.onmouseup = closeDragElement
-        document.onmousemove = elementDrag
-    }
+  const dragMouseDown = (e) => {
+    e = e || window.event
+    e.preventDefault()
+    pos3 = e.clientX
+    pos4 = e.clientY
+    document.onmouseup = closeDragElement
+    document.onmousemove = elementDrag
+  }
 
-    const elementDrag = (e) => {
-        e = e || window.event
-        e.preventDefault()
-        pos1 = pos3 - e.clientX
-        pos2 = pos4 - e.clientY
-        pos3 = e.clientX
-        pos4 = e.clientY
+  const elementDrag = (e) => {
+    e = e || window.event
+    e.preventDefault()
+    pos1 = pos3 - e.clientX
+    pos2 = pos4 - e.clientY
+    pos3 = e.clientX
+    pos4 = e.clientY
 
-        elem.style.top = (elem.offsetTop - pos2) + "px"
-        elem.style.left = (elem.offsetLeft - pos1) + "px"
-    }
+    elem.style.top = (elem.offsetTop - pos2) + "px"
+    elem.style.left = (elem.offsetLeft - pos1) + "px"
+  }
 
-    const closeDragElement = () => {
-        document.onmouseup = null
-        document.onmousemove = null
-    }
+  const closeDragElement = () => {
+    document.onmouseup = null
+    document.onmousemove = null
+  }
 
-    let pos1, pos2, pos3, pos4
+  let pos1, pos2, pos3, pos4
 
-    if (document.getElementsByClassName("drDrag").length > 0) {
-        document.getElementsByClassName("drDrag")[0].onmousedown = dragMouseDown
-    } else {
-        elem.onmousedown = dragMouseDown
-    }
+  if (document.getElementsByClassName("drDrag").length > 0) {
+    document.getElementsByClassName("drDrag")[0].onmousedown = dragMouseDown
+  } else {
+    elem.onmousedown = dragMouseDown
+  }
 }
 
 const prevImg = () => {
-    if (i === 0) {
-        i = sources.length - 1
-    } else {
-        i--
-    }
+  if (i === 0) {
+    i = sources.length - 1
+  } else {
+    i--
+  }
 
-    galleryElem.src = sources[i]
+  galleryElem.src = sources[i]
 }
 
 const nextImg = () => {
-    if (i === sources.length - 1) {
-        i = 0
-    } else {
-        i++
-    }
+  if (i === sources.length - 1) {
+    i = 0
+  } else {
+    i++
+  }
 
-    galleryElem.src = sources[i]
+  galleryElem.src = sources[i]
 }
 
 const limiter = document.getElementsByClassName("boardBanner")[0]
@@ -71,8 +73,8 @@ newNode.innerHTML = `<div id="drGallery" class="extPanel reply">
     <img id="drImg" src="" alt="" />
   </div>
   <div id="drHeader">
-    <button id="drPrev">p</button>
-    <button id="drNext">n</button>
+    <button id="drPrev">\<</button>
+    <button id="drNext">\></button>
   </div>
 </div>`
 
@@ -116,7 +118,7 @@ let sources = []
 const elems = document.getElementsByClassName("fileThumb")
 
 for (let e of elems) {
-    sources.push(e.href)
+  sources.push(e.href)
 }
 
 const galleryElem = document.getElementById("drImg")
