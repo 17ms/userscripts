@@ -1,8 +1,8 @@
 // ==UserScript==
 // @name        General media expander
 // @namespace   Violentmonkey Scripts
-// @match       *://boards.4channel.org/*/thread/*
-// @match       *://boards.4chan.org/*/thread/*
+// @match       *://boards.4chan*.org/*/thread/*
+// @exclude     *://boards.4chan*.org/*/catalog
 // @version     1.0
 // ==/UserScript==
 
