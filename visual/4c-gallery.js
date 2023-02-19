@@ -7,13 +7,9 @@
 // @version     1.0
 // ==/UserScript==
 
-/* 
-Keybindings:
-  - Changing images: Ctrl + Alt + Left/Right
-  - Resizing the frame: Ctrl + Alt + Up/Down
-*/
-
-// TODO: dl & source buttons, webm exclusion, frame toggling, maybe better styling
+// https://developer.mozilla.org/en-US/docs/Web/API/UI_Events/Keyboard_event_key_values
+// Decrease frame size, increase frame size, previous image, next image, toggle frame visibility, go to the source hash
+const keybindings = ["ArrowDown", "ArrowUp", "ArrowLeft", "ArrowRight", "Escape", "Tab"]
 
 const dragElement = (elem) => {
   const handler = (e) => {
@@ -71,14 +67,14 @@ const nextImg = () => {
   galleryElem.src = sources[i]
 }
 
-// couldn't work resizing out in css so decided to use this ugly js solution
+// could probably be improved with proper css
 const sizeUp = () => {
   const e = document.getElementById("drGallery")
   const newW = e.clientWidth + 100
   const newH = e.clientHeight + 90
 
   if (newW > window.innerWidth || newH > window.innerHeight) {
-    return;
+    return
   }
 
   document.getElementById("drGallery").style.width = newW + "px"
@@ -91,29 +87,37 @@ const sizeDown = () => {
   const newH = e.clientHeight - 90
 
   if (newW < 265 || newH < 240) {
-    return;
+    return
   }
 
   document.getElementById("drGallery").style.width = newW + "px"
   document.getElementById("drGallery").style.height = newH + "px"
 }
 
-// TODO: implement downloader
-//const dlImage = () => { }
+const moveToHash = () => {
+  const hash = parentHashes[i]
+  const url = window.location.href.split("#")[0]
 
-const keyDownEvent = (e) => {
+  window.location.href = url + hash
+}
+
+const keyDownEvent = async (e) => {
   if (!(e.ctrlKey && e.altKey)) {
-    return;
+    return
   }
 
-  if (e.key === "ArrowDown") {
+  if (e.key === keybindings[0]) {
     sizeDown(document.getElementById("drGallery"))
-  } else if (e.key === "ArrowUp") {
+  } else if (e.key === keybindings[1]) {
     sizeUp(document.getElementById("drGallery"))
-  } else if (e.key === "ArrowLeft") {
+  } else if (e.key === keybindings[2]) {
     prevImg()
-  } else if (e.key === "ArrowRight") {
+  } else if (e.key === keybindings[3]) {
     nextImg()
+  } else if (e.key === keybindings[4]) {
+    document.getElementById("drGallery").toggleAttribute("hidden")
+  } else if (e.key === keybindings[5]) {
+    moveToHash()
   }
 }
 
@@ -172,12 +176,19 @@ document.body.insertBefore(newNode, limitElem)
 
 let i = 0
 let sources = []
-const elems = document.getElementsByClassName("fileThumb")
+let parentHashes = []
 
-for (let e of elems) {
+const fileDivs = document.getElementsByClassName("fileThumb")
+const hashPrefix = document.getElementsByClassName("postNum")[0].children[0].hash.slice(0, 3)
+
+for (let e of fileDivs) {
+  // TODO: webm & gif exclusion
+
+  // div's id to post's hash (prefix x): fT12345678 => #px12345678
+  parentHashes.push(hashPrefix + e.parentElement.id.slice(2))
   sources.push(e.href)
 }
 
 const galleryElem = document.getElementById("drImg")
-document.addEventListener("keydown", keyDownEvent, false)
+document.addEventListener("keyup", keyDownEvent, false)
 dragElement(document.getElementById("drGallery"))
