@@ -10,6 +10,7 @@
 // https://developer.mozilla.org/en-US/docs/Web/API/UI_Events/Keyboard_event_key_values
 // Decrease frame size, increase frame size, previous image, next image, toggle frame visibility, go to the source hash
 const keybindings = ["ArrowDown", "ArrowUp", "ArrowLeft", "ArrowRight", "Escape", "Tab"]
+const excludeWebm = true
 
 const dragElement = (elem) => {
   const handler = (e) => {
@@ -121,15 +122,16 @@ const keyDownEvent = async (e) => {
   }
 }
 
-const limitElem = document.getElementsByClassName("boardBanner")[0]
-const newNode = document.createElement("div")
-newNode.innerHTML = `<div id="drGallery">
+const createElements = () => {
+  const limitElem = document.getElementsByClassName("boardBanner")[0]
+  const newNode = document.createElement("div")
+  newNode.innerHTML = `<div hidden id="drGallery">
   <div id="drHeader" class="drag drDrag">Gallery</div>
   <div id="drContainer"><img id="drImg" src="" alt="" /></div>
 </div>`
 
-const stylesheet = document.createElement("style")
-stylesheet.innerText = `#drGallery {
+  const stylesheet = document.createElement("style")
+  stylesheet.innerText = `#drGallery {
   position: absolute;
   z-index: 9;
   font-weight: bold;
@@ -171,24 +173,37 @@ stylesheet.innerText = `#drGallery {
   margin: auto;
 }`
 
-document.head.appendChild(stylesheet)
-document.body.insertBefore(newNode, limitElem)
-
-let i = 0
-let sources = []
-let parentHashes = []
-
-const fileDivs = document.getElementsByClassName("fileThumb")
-const hashPrefix = document.getElementsByClassName("postNum")[0].children[0].hash.slice(0, 3)
-
-for (let e of fileDivs) {
-  // TODO: webm & gif exclusion
-
-  // div's id to post's hash (prefix x): fT12345678 => #px12345678
-  parentHashes.push(hashPrefix + e.parentElement.id.slice(2))
-  sources.push(e.href)
+  document.head.appendChild(stylesheet)
+  document.body.insertBefore(newNode, limitElem)
 }
 
+const collectSources = () => {
+  let sources = []
+  let parentHashes = []
+
+  const fileDivs = document.getElementsByClassName("fileThumb")
+  const hashPrefix = document.getElementsByClassName("postNum")[0].children[0].hash.slice(0, 3)
+
+  for (let e of fileDivs) {
+    const s = e.href.split(".")
+    const filetype = s[s.length - 1]
+
+    if (excludeWebm && filetype === "webm") {
+      return
+    }
+
+    // div's id to post's hash (prefix x): fT12345678 => #px12345678
+    parentHashes.push(hashPrefix + e.parentElement.id.slice(2))
+    sources.push(e.href)
+  }
+
+  return [sources, parentHashes]
+}
+
+createElements()
+
+let i = 0
+const [sources, parentHashes] = collectSources()
 const galleryElem = document.getElementById("drImg")
 document.addEventListener("keyup", keyDownEvent, false)
 dragElement(document.getElementById("drGallery"))
