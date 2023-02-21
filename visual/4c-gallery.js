@@ -55,7 +55,7 @@ const prevImg = () => {
     i--
   }
 
-  galleryElem.src = sources[i]
+  galleryElem.src = sources[i][0]
 }
 
 const nextImg = () => {
@@ -65,7 +65,7 @@ const nextImg = () => {
     i++
   }
 
-  galleryElem.src = sources[i]
+  galleryElem.src = sources[i][0]
 }
 
 // could probably be improved with proper css
@@ -96,7 +96,7 @@ const sizeDown = () => {
 }
 
 const moveToHash = () => {
-  const hash = parentHashes[i]
+  const hash = sources[i][1]
   const url = window.location.href.split("#")[0]
 
   window.location.href = url + hash
@@ -179,7 +179,6 @@ const createElements = () => {
 
 const collectSources = () => {
   let sources = []
-  let parentHashes = []
 
   const fileDivs = document.getElementsByClassName("fileThumb")
   const hashPrefix = document.getElementsByClassName("postNum")[0].children[0].hash.slice(0, 3)
@@ -189,21 +188,21 @@ const collectSources = () => {
     const filetype = s[s.length - 1]
 
     if (excludeWebm && filetype === "webm") {
-      return
+      continue
     }
 
     // div's id to post's hash (prefix x): fT12345678 => #px12345678
-    parentHashes.push(hashPrefix + e.parentElement.id.slice(2))
-    sources.push(e.href)
+    sources.push([e.href, hashPrefix + e.parentElement.id.slice(2)])
   }
 
-  return [sources, parentHashes]
+  return sources
 }
 
 createElements()
 
 let i = 0
-const [sources, parentHashes] = collectSources()
+const sources = collectSources()
+
 const galleryElem = document.getElementById("drImg")
 document.addEventListener("keyup", keyDownEvent, false)
 dragElement(document.getElementById("drGallery"))
