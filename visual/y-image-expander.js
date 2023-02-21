@@ -1,5 +1,6 @@
 // ==UserScript==
-// @name        General media expander
+// @name        y-image-expander
+// @description General media expander
 // @namespace   Violentmonkey Scripts
 // @match *://ylilauta.org/*
 // @version     1.0

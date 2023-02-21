@@ -1,5 +1,6 @@
 // ==UserScript==
-// @name        General media expander
+// @name        4c-image-expander
+// @description General media expander
 // @namespace   Violentmonkey Scripts
 // @match       *://boards.4chan*.org/*/thread/*
 // @exclude     *://boards.4chan*.org/*/catalog

@@ -1,5 +1,6 @@
 // ==UserScript==
-// @name        Draggable gallery for media
+// @name        4c-gallery
+// @description Draggable image viewer
 // @namespace   Violentmonkey Scripts
 // @author      17ms
 // @match       *://boards.4chan*.org/*/thread/*
