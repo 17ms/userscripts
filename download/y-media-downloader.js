@@ -1,6 +1,8 @@
 // ==UserScript==
 // @name        y-media-downloader
 // @description General media downloader
+// @author      17ms
+// @license     MIT License
 // @namespace   Violentmonkey Scripts
 // @match       *://ylilauta.org/*
 // @version     1.0

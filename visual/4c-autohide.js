@@ -1,9 +1,10 @@
 // ==UserScript==
 // @name        4c-autohide
 // @description Keyword based thread hider
+// @author      17ms
+// @license     MIT License
 // @namespace   Violentmonkey Scripts
-// @match       *://boards.4channel.org/*/catalog
-// @match       *://boards.4chan.org/*/catalog
+// @match       *://boards.4chan*.org/*/catalog
 // @version     1.0
 // ==/UserScript==
 
