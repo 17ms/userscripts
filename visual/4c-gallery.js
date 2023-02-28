@@ -1,16 +1,16 @@
 // ==UserScript==
 // @name        4c-gallery
 // @description Draggable image viewer
-// @namespace   Violentmonkey Scripts
 // @author      17ms
+// @license     MIT License
+// @namespace   Violentmonkey Scripts
 // @match       *://boards.4chan*.org/*/thread/*
 // @exclude     *://boards.4chan*.org/*/catalog
 // @version     1.0
 // ==/UserScript==
 
-// https://developer.mozilla.org/en-US/docs/Web/API/UI_Events/Keyboard_event_key_values
-// Decrease frame size, increase frame size, previous image, next image, toggle frame visibility, go to the source hash
-const keybindings = ["ArrowDown", "ArrowUp", "ArrowLeft", "ArrowRight", "Escape", "Tab"]
+// Shortcuts: decrease size, increase size, previous image, next image, jump to the source hash (i.e. post)
+const keys = ["-", "+", "j", "k", "i"]
 const excludeWebm = true
 
 const dragElement = (elem) => {
@@ -51,22 +51,22 @@ const dragElement = (elem) => {
 
 const prevImg = () => {
   if (i === 0) {
-    i = sources.length - 1
+    i = imgs.length - 1
   } else {
     i--
   }
 
-  galleryElem.src = sources[i][0]
+  imgElem.src = imgs[i].src
 }
 
 const nextImg = () => {
-  if (i === sources.length - 1) {
+  if (i === imgs.length - 1) {
     i = 0
   } else {
     i++
   }
 
-  galleryElem.src = sources[i][0]
+  imgElem.src = imgs[i].src
 }
 
 // could probably be improved with proper css
@@ -103,22 +103,25 @@ const moveToHash = () => {
   window.location.href = url + hash
 }
 
-const keyDownEvent = async (e) => {
-  if (!(e.ctrlKey && e.altKey)) {
-    return
+const preloadImgs = async () => {
+  for (let s of sources) {
+    let img = new Image()
+    img.src = s[0]
+    await img.decode()
+    imgs.push(img)
   }
+}
 
-  if (e.key === keybindings[0]) {
+const keyDownEvent = async (e) => {
+  if (e.key === keys[0]) {
     sizeDown(document.getElementById("drGallery"))
-  } else if (e.key === keybindings[1]) {
+  } else if (e.key === keys[1]) {
     sizeUp(document.getElementById("drGallery"))
-  } else if (e.key === keybindings[2]) {
+  } else if (e.key === keys[2]) {
     prevImg()
-  } else if (e.key === keybindings[3]) {
+  } else if (e.key === keys[3]) {
     nextImg()
-  } else if (e.key === keybindings[4]) {
-    document.getElementById("drGallery").toggleAttribute("hidden")
-  } else if (e.key === keybindings[5]) {
+  } else if (e.key === keys[4]) {
     moveToHash()
   }
 }
@@ -126,7 +129,7 @@ const keyDownEvent = async (e) => {
 const createElements = () => {
   const limitElem = document.getElementsByClassName("boardBanner")[0]
   const newNode = document.createElement("div")
-  newNode.innerHTML = `<div hidden id="drGallery">
+  newNode.innerHTML = `<div id="drGallery" class="reply">
   <div id="drHeader" class="drag drDrag">Gallery</div>
   <div id="drContainer"><img id="drImg" src="" alt="" /></div>
 </div>`
@@ -145,6 +148,7 @@ const createElements = () => {
   max-width: 100%;
   max-height: 100%;
   margin: 0px;
+  display: none;
 }
 
 #drHeader {
@@ -176,6 +180,7 @@ const createElements = () => {
 
   document.head.appendChild(stylesheet)
   document.body.insertBefore(newNode, limitElem)
+  document.getElementsByClassName("navLinks desktop")[0].innerHTML += " [<a href='javascript:toggleGalleryVisibility()'>Gallery</a>]"
 }
 
 const collectSources = () => {
@@ -199,11 +204,23 @@ const collectSources = () => {
   return sources
 }
 
+window.toggleGalleryVisibility = () => {
+  if (baseElem.style.display === "block") {
+    baseElem.style.display = "none"
+  } else {
+    baseElem.style.display = "block"
+  }
+}
+
 createElements()
 
 let i = 0
+let imgs = []
 const sources = collectSources()
+preloadImgs().then(() => console.log("4c-gallery: All images loaded"))
 
-const galleryElem = document.getElementById("drImg")
+
+const baseElem = document.getElementById("drGallery")
+const imgElem = document.getElementById("drImg")
 document.addEventListener("keyup", keyDownEvent, false)
-dragElement(document.getElementById("drGallery"))
+dragElement(baseElem)
