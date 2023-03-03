@@ -112,7 +112,7 @@ const preloadImgs = async () => {
   }
 }
 
-const keyDownEvent = async (e) => {
+const keyUpEvent = async (e) => {
   if (e.key === keys[0]) {
     sizeDown(document.getElementById("drGallery"))
   } else if (e.key === keys[1]) {
@@ -207,8 +207,10 @@ const collectSources = () => {
 window.toggleGalleryVisibility = () => {
   if (baseElem.style.display === "block") {
     baseElem.style.display = "none"
+    document.removeEventListener("keyup", keyUpEvent, false)
   } else {
     baseElem.style.display = "block"
+    document.addEventListener("keyup", keyUpEvent, false)
   }
 }
 
@@ -222,5 +224,4 @@ preloadImgs().then(() => console.log("4c-gallery: All images loaded"))
 
 const baseElem = document.getElementById("drGallery")
 const imgElem = document.getElementById("drImg")
-document.addEventListener("keyup", keyDownEvent, false)
 dragElement(baseElem)
