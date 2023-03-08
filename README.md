@@ -1,6 +1,6 @@
 ## Collection of small userscripts
 
-Tested with [Violentmonkey](https://violentmonkey.github.io/) & Gecko.
+Tested with [Violentmonkey](https://violentmonkey.github.io/) & Gecko. Available on [Greasyfork](https://greasyfork.org/en/users/1033565-17ms).
 
 * [4c-autohide.js](visual/4c-autohide.js)
 * [4c-gallery.js](visual/4c-gallery.js)
