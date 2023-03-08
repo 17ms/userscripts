@@ -6,7 +6,7 @@
 // @namespace   Violentmonkey Scripts
 // @match       *://boards.4chan*.org/*/thread/*
 // @exclude     *://boards.4chan*.org/*/catalog
-// @version     1.0
+// @version     1.1
 // ==/UserScript==
 
 // Shortcuts: decrease size, increase size, previous image, next image, jump to the source hash (i.e. post)
@@ -110,9 +110,17 @@ const preloadImgs = async () => {
     await img.decode()
     imgs.push(img)
   }
+
+  if (imgs.length > 0) {
+    imgElem.src = imgs[0].src
+  }
 }
 
 const keyUpEvent = async (e) => {
+  if (["input", "textarea"].includes(e.target.tagName.toLowerCase())) {
+    return
+  }
+
   if (e.key === keys[0]) {
     sizeDown(document.getElementById("drGallery"))
   } else if (e.key === keys[1]) {
