@@ -6,7 +6,7 @@
 // @namespace   Violentmonkey Scripts
 // @match       *://boards.4chan*.org/*/thread/*
 // @exclude     *://boards.4chan*.org/*/catalog
-// @version     1.1
+// @version     1.2
 // ==/UserScript==
 
 // Shortcuts: decrease size, increase size, previous image, next image, jump to the source hash (i.e. post)
@@ -109,10 +109,6 @@ const preloadImgs = async () => {
     img.src = s[0]
     await img.decode()
     imgs.push(img)
-  }
-
-  if (imgs.length > 0) {
-    imgElem.src = imgs[0].src
   }
 }
 
