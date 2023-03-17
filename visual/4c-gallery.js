@@ -6,7 +6,7 @@
 // @namespace   Violentmonkey Scripts
 // @match       *://boards.4chan*.org/*/thread/*
 // @exclude     *://boards.4chan*.org/*/catalog
-// @version     1.2
+// @version     1.3
 // ==/UserScript==
 
 // Shortcuts: decrease size, increase size, previous image, next image, jump to the source hash (i.e. post)
