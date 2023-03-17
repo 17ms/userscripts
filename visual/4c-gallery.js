@@ -11,7 +11,7 @@
 
 // Shortcuts: decrease size, increase size, previous image, next image, jump to the source hash (i.e. post)
 const keys = ["-", "+", "j", "k", "i"]
-const excludeWebm = true
+const excludeWebm = true // not tested with webms enabled
 
 const dragElement = (elem) => {
   const handler = (e) => {
@@ -69,31 +69,28 @@ const nextImg = () => {
   imgElem.src = imgs[i].src
 }
 
-// could probably be improved with proper css
 const sizeUp = () => {
-  const e = document.getElementById("drGallery")
-  const newW = e.clientWidth + 100
-  const newH = e.clientHeight + 90
+  const newW = baseElem.clientWidth + 200
+  const newH = Math.round(newW * ratioMultiplier)
 
-  if (newW > window.innerWidth || newH > window.innerHeight) {
+  if (newW > window.innerWidth) {
     return
   }
 
-  document.getElementById("drGallery").style.width = newW + "px"
-  document.getElementById("drGallery").style.height = newH + "px"
+  baseElem.style.width = newW + "px"
+  baseElem.style.height = newH + "px"
 }
 
 const sizeDown = () => {
-  const e = document.getElementById("drGallery")
-  const newW = e.clientWidth - 100
-  const newH = e.clientHeight - 90
+  const newW = baseElem.clientWidth - 200
+  const newH = Math.round(newW * ratioMultiplier)
 
   if (newW < 265 || newH < 240) {
     return
   }
 
-  document.getElementById("drGallery").style.width = newW + "px"
-  document.getElementById("drGallery").style.height = newH + "px"
+  baseElem.style.width = newW + "px"
+  baseElem.style.height = newH + "px"
 }
 
 const moveToHash = () => {
@@ -118,9 +115,9 @@ const keyUpEvent = async (e) => {
   }
 
   if (e.key === keys[0]) {
-    sizeDown(document.getElementById("drGallery"))
+    sizeDown()
   } else if (e.key === keys[1]) {
-    sizeUp(document.getElementById("drGallery"))
+    sizeUp()
   } else if (e.key === keys[2]) {
     prevImg()
   } else if (e.key === keys[3]) {
@@ -133,10 +130,13 @@ const keyUpEvent = async (e) => {
 const createElements = () => {
   const limitElem = document.getElementsByClassName("boardBanner")[0]
   const newNode = document.createElement("div")
-  newNode.innerHTML = `<div id="drGallery" class="reply">
-  <div id="drHeader" class="drag drDrag">Gallery</div>
+  newNode.innerHTML = `<div id="drGallery" class="reply drDrag drag">
+  <div id="drHeader">Gallery</div>
   <div id="drContainer"><img id="drImg" src="" alt="" /></div>
 </div>`
+
+  const initW = "265px"
+  const initH = Math.round(265 * ratioMultiplier) + "px"
 
   const stylesheet = document.createElement("style")
   stylesheet.innerText = `#drGallery {
@@ -145,33 +145,28 @@ const createElements = () => {
   font-weight: bold;
   text-align: center;
   border: 1px solid black;
-  width: 265px;
-  height: 240px;
-  min-width: 265px;
-  min-height: 240px;
-  max-width: 100%;
-  max-height: 100%;
-  margin: 0px;
+  width: ${initW};
+  height: ${initH};
+  min-width: ${initW};
+  min-height: ${initH};
   display: none;
+  flex-direction: column;
 }
 
 #drHeader {
-  z-index: 10;
   min-height: max-content;
-  max-height: max-content;
   padding: 5px;
-  cursor: move;
 }
 
 #drContainer {
   width: inherit;
-  height: 85%;
+  height: 100%;
   position: relative;
 }
 
 #drContainer img {
-  max-height: 100%;
   max-width: 100%;
+  max-height: 98%;
   width: auto;
   height: auto;
   position: absolute;
@@ -209,15 +204,16 @@ const collectSources = () => {
 }
 
 window.toggleGalleryVisibility = () => {
-  if (baseElem.style.display === "block") {
+  if (baseElem.style.display === "flex") {
     baseElem.style.display = "none"
     document.removeEventListener("keyup", keyUpEvent, false)
   } else {
-    baseElem.style.display = "block"
+    baseElem.style.display = "flex"
     document.addEventListener("keyup", keyUpEvent, false)
   }
 }
 
+const ratioMultiplier = window.screen.availHeight / window.screen.availWidth
 createElements()
 
 let i = 0
