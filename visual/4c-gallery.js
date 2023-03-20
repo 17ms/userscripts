@@ -6,7 +6,7 @@
 // @namespace   Violentmonkey Scripts
 // @match       *://boards.4chan*.org/*/thread/*
 // @exclude     *://boards.4chan*.org/*/catalog
-// @version     1.3
+// @version     1.3.1
 // ==/UserScript==
 
 // Shortcuts: decrease size, increase size, previous image, next image, jump to the source hash (i.e. post)
@@ -213,7 +213,7 @@ window.toggleGalleryVisibility = () => {
   }
 }
 
-const ratioMultiplier = window.screen.availHeight / window.screen.availWidth
+const ratioMultiplier = window.innerHeight / window.innerWidth
 createElements()
 
 let i = 0
