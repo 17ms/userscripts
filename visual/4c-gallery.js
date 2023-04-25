@@ -6,11 +6,20 @@
 // @namespace   Violentmonkey Scripts
 // @match       *://boards.4chan*.org/*/thread/*
 // @exclude     *://boards.4chan*.org/*/catalog
-// @version     1.3.1
+// @version     1.3.2
 // ==/UserScript==
 
-// Shortcuts: decrease size, increase size, previous image, next image, jump to the source hash (i.e. post)
-const keys = ["-", "+", "j", "k", "i"]
+/*
+Default shortcuts:
+  "-" decrease window size
+  "+" increase window size
+  "j" previous image
+  "k" next image
+  "i" jump to the source (i.e. post's hash)
+  "l" open the image to a new tab
+*/
+
+const keys = ["-", "+", "j", "k", "i", "l"]
 const excludeWebm = true // not tested with webms enabled
 
 const dragElement = (elem) => {
@@ -100,6 +109,11 @@ const moveToHash = () => {
   window.location.href = url + hash
 }
 
+const openToNew = () => {
+  const url = sources[i][0]
+  window.open(url, "_blank")
+}
+
 const preloadImgs = async () => {
   for (let s of sources) {
     let img = new Image()
@@ -114,16 +128,25 @@ const keyUpEvent = async (e) => {
     return
   }
 
-  if (e.key === keys[0]) {
-    sizeDown()
-  } else if (e.key === keys[1]) {
-    sizeUp()
-  } else if (e.key === keys[2]) {
-    prevImg()
-  } else if (e.key === keys[3]) {
-    nextImg()
-  } else if (e.key === keys[4]) {
-    moveToHash()
+  switch (e.key) {
+    case keys[0]:
+      sizeDown()
+      break
+    case keys[1]:
+      sizeUp()
+      break
+    case keys[2]:
+      prevImg()
+      break
+    case keys[3]:
+      nextImg()
+      break
+    case keys[4]:
+      moveToHash()
+      break
+    case keys[5]:
+      openToNew()
+      break
   }
 }
 
@@ -220,7 +243,6 @@ let i = 0
 let imgs = []
 const sources = collectSources()
 preloadImgs().then(() => console.log("4c-gallery: All images loaded"))
-
 
 const baseElem = document.getElementById("drGallery")
 const imgElem = document.getElementById("drImg")
