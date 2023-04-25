@@ -35,13 +35,14 @@ const dragElement = (elem) => {
   const enableDragger = (e) => {
     e = e || window.event
     e.preventDefault()
+
     pos1 = pos3 - e.clientX
     pos2 = pos4 - e.clientY
     pos3 = e.clientX
     pos4 = e.clientY
 
-    elem.style.top = (elem.offsetTop - pos2) + "px"
-    elem.style.left = (elem.offsetLeft - pos1) + "px"
+    elem.style.top = elem.offsetTop - pos2 + "px"
+    elem.style.left = elem.offsetLeft - pos1 + "px"
   }
 
   const closeDragger = () => {
@@ -202,14 +203,17 @@ const createElements = () => {
 
   document.head.appendChild(stylesheet)
   document.body.insertBefore(newNode, limitElem)
-  document.getElementsByClassName("navLinks desktop")[0].innerHTML += " [<a href='javascript:toggleGalleryVisibility()'>Gallery</a>]"
+  document.getElementsByClassName("navLinks desktop")[0].innerHTML +=
+    " [<a href='javascript:toggleGalleryVisibility()'>Gallery</a>]"
 }
 
 const collectSources = () => {
   let sources = []
 
   const fileDivs = document.getElementsByClassName("fileThumb")
-  const hashPrefix = document.getElementsByClassName("postNum")[0].children[0].hash.slice(0, 3)
+  const hashPrefix = document
+    .getElementsByClassName("postNum")[0]
+    .children[0].hash.slice(0, 3)
 
   for (let e of fileDivs) {
     const s = e.href.split(".")
