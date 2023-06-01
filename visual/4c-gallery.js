@@ -23,147 +23,147 @@ const keys = ["-", "+", "j", "k", "i", "l"]
 const excludeWebm = true // not tested with webms enabled
 
 const dragElement = (elem) => {
-  const handler = (e) => {
-    e = e || window.event
-    e.preventDefault()
-    pos3 = e.clientX
-    pos4 = e.clientY
-    document.onmouseup = closeDragger
-    document.onmousemove = enableDragger
-  }
+    const handler = (e) => {
+        e = e || window.event
+        e.preventDefault()
+        pos3 = e.clientX
+        pos4 = e.clientY
+        document.onmouseup = closeDragger
+        document.onmousemove = enableDragger
+    }
 
-  const enableDragger = (e) => {
-    e = e || window.event
-    e.preventDefault()
+    const enableDragger = (e) => {
+        e = e || window.event
+        e.preventDefault()
 
-    pos1 = pos3 - e.clientX
-    pos2 = pos4 - e.clientY
-    pos3 = e.clientX
-    pos4 = e.clientY
+        pos1 = pos3 - e.clientX
+        pos2 = pos4 - e.clientY
+        pos3 = e.clientX
+        pos4 = e.clientY
 
-    elem.style.top = elem.offsetTop - pos2 + "px"
-    elem.style.left = elem.offsetLeft - pos1 + "px"
-  }
+        elem.style.top = elem.offsetTop - pos2 + "px"
+        elem.style.left = elem.offsetLeft - pos1 + "px"
+    }
 
-  const closeDragger = () => {
-    document.onmouseup = null
-    document.onmousemove = null
-  }
+    const closeDragger = () => {
+        document.onmouseup = null
+        document.onmousemove = null
+    }
 
-  let pos1, pos2, pos3, pos4
+    let pos1, pos2, pos3, pos4
 
-  if (document.getElementsByClassName("drDrag").length > 0) {
-    document.getElementsByClassName("drDrag")[0].onmousedown = handler
-  } else {
-    elem.onmousedown = handler
-  }
+    if (document.getElementsByClassName("drDrag").length > 0) {
+        document.getElementsByClassName("drDrag")[0].onmousedown = handler
+    } else {
+        elem.onmousedown = handler
+    }
 }
 
 const prevImg = () => {
-  if (i === 0) {
-    i = imgs.length - 1
-  } else {
-    i--
-  }
+    if (i === 0) {
+        i = imgs.length - 1
+    } else {
+        i--
+    }
 
-  imgElem.src = imgs[i].src
+    imgElem.src = imgs[i].src
 }
 
 const nextImg = () => {
-  if (i === imgs.length - 1) {
-    i = 0
-  } else {
-    i++
-  }
+    if (i === imgs.length - 1) {
+        i = 0
+    } else {
+        i++
+    }
 
-  imgElem.src = imgs[i].src
+    imgElem.src = imgs[i].src
 }
 
 const sizeUp = () => {
-  const newW = baseElem.clientWidth + 200
-  const newH = Math.round(newW * ratioMultiplier)
+    const newW = baseElem.clientWidth + 200
+    const newH = Math.round(newW * ratioMultiplier)
 
-  if (newW > window.innerWidth) {
-    return
-  }
+    if (newW > window.innerWidth) {
+        return
+    }
 
-  baseElem.style.width = newW + "px"
-  baseElem.style.height = newH + "px"
+    baseElem.style.width = newW + "px"
+    baseElem.style.height = newH + "px"
 }
 
 const sizeDown = () => {
-  const newW = baseElem.clientWidth - 200
-  const newH = Math.round(newW * ratioMultiplier)
+    const newW = baseElem.clientWidth - 200
+    const newH = Math.round(newW * ratioMultiplier)
 
-  if (newW < 265 || newH < 240) {
-    return
-  }
+    if (newW < 265 || newH < 240) {
+        return
+    }
 
-  baseElem.style.width = newW + "px"
-  baseElem.style.height = newH + "px"
+    baseElem.style.width = newW + "px"
+    baseElem.style.height = newH + "px"
 }
 
 const moveToHash = () => {
-  const hash = sources[i][1]
-  const url = window.location.href.split("#")[0]
+    const hash = sources[i][1]
+    const url = window.location.href.split("#")[0]
 
-  window.location.href = url + hash
+    window.location.href = url + hash
 }
 
 const openToNew = () => {
-  const url = sources[i][0]
-  window.open(url, "_blank")
+    const url = sources[i][0]
+    window.open(url, "_blank")
 }
 
 const preloadImgs = async () => {
-  for (let s of sources) {
-    let img = new Image()
-    img.src = s[0]
-    await img.decode()
-    imgs.push(img)
-  }
+    for (let s of sources) {
+        let img = new Image()
+        img.src = s[0]
+        await img.decode()
+        imgs.push(img)
+    }
 }
 
 const keyUpEvent = async (e) => {
-  if (["input", "textarea"].includes(e.target.tagName.toLowerCase())) {
-    return
-  }
+    if (["input", "textarea"].includes(e.target.tagName.toLowerCase())) {
+        return
+    }
 
-  switch (e.key) {
+    switch (e.key) {
     case keys[0]:
-      sizeDown()
-      break
+        sizeDown()
+        break
     case keys[1]:
-      sizeUp()
-      break
+        sizeUp()
+        break
     case keys[2]:
-      prevImg()
-      break
+        prevImg()
+        break
     case keys[3]:
-      nextImg()
-      break
+        nextImg()
+        break
     case keys[4]:
-      moveToHash()
-      break
+        moveToHash()
+        break
     case keys[5]:
-      openToNew()
-      break
-  }
+        openToNew()
+        break
+    }
 }
 
 const createElements = () => {
-  const limitElem = document.getElementsByClassName("boardBanner")[0]
-  const newNode = document.createElement("div")
-  newNode.innerHTML = `<div id="drGallery" class="reply drDrag drag">
+    const limitElem = document.getElementsByClassName("boardBanner")[0]
+    const newNode = document.createElement("div")
+    newNode.innerHTML = `<div id="drGallery" class="reply drDrag drag">
   <div id="drHeader">Gallery</div>
   <div id="drContainer"><img id="drImg" src="" alt="" /></div>
 </div>`
 
-  const initW = "265px"
-  const initH = Math.round(265 * ratioMultiplier) + "px"
+    const initW = "265px"
+    const initH = Math.round(265 * ratioMultiplier) + "px"
 
-  const stylesheet = document.createElement("style")
-  stylesheet.innerText = `#drGallery {
+    const stylesheet = document.createElement("style")
+    stylesheet.innerText = `#drGallery {
   position: absolute;
   z-index: 9;
   font-weight: bold;
@@ -201,43 +201,43 @@ const createElements = () => {
   margin: auto;
 }`
 
-  document.head.appendChild(stylesheet)
-  document.body.insertBefore(newNode, limitElem)
-  document.getElementsByClassName("navLinks desktop")[0].innerHTML +=
+    document.head.appendChild(stylesheet)
+    document.body.insertBefore(newNode, limitElem)
+    document.getElementsByClassName("navLinks desktop")[0].innerHTML +=
     " [<a href='javascript:toggleGalleryVisibility()'>Gallery</a>]"
 }
 
 const collectSources = () => {
-  let sources = []
+    let sources = []
 
-  const fileDivs = document.getElementsByClassName("fileThumb")
-  const hashPrefix = document
-    .getElementsByClassName("postNum")[0]
-    .children[0].hash.slice(0, 3)
+    const fileDivs = document.getElementsByClassName("fileThumb")
+    const hashPrefix = document
+        .getElementsByClassName("postNum")[0]
+        .children[0].hash.slice(0, 3)
 
-  for (let e of fileDivs) {
-    const s = e.href.split(".")
-    const filetype = s[s.length - 1]
+    for (let e of fileDivs) {
+        const s = e.href.split(".")
+        const filetype = s[s.length - 1]
 
-    if (excludeWebm && filetype === "webm") {
-      continue
+        if (excludeWebm && filetype === "webm") {
+            continue
+        }
+
+        // div's id to post's hash (prefix x): fT12345678 => #px12345678
+        sources.push([e.href, hashPrefix + e.parentElement.id.slice(2)])
     }
 
-    // div's id to post's hash (prefix x): fT12345678 => #px12345678
-    sources.push([e.href, hashPrefix + e.parentElement.id.slice(2)])
-  }
-
-  return sources
+    return sources
 }
 
 window.toggleGalleryVisibility = () => {
-  if (baseElem.style.display === "flex") {
-    baseElem.style.display = "none"
-    document.removeEventListener("keyup", keyUpEvent, false)
-  } else {
-    baseElem.style.display = "flex"
-    document.addEventListener("keyup", keyUpEvent, false)
-  }
+    if (baseElem.style.display === "flex") {
+        baseElem.style.display = "none"
+        document.removeEventListener("keyup", keyUpEvent, false)
+    } else {
+        baseElem.style.display = "flex"
+        document.addEventListener("keyup", keyUpEvent, false)
+    }
 }
 
 const ratioMultiplier = window.innerHeight / window.innerWidth

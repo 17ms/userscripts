@@ -9,16 +9,16 @@
 // ==/UserScript==
 
 const toggleImages = () => {
-  const mediaJpg = document.querySelectorAll("a.jpg")
-  const mediaPng = document.querySelectorAll("a.png")
+    const mediaJpg = document.querySelectorAll("a.jpg")
+    const mediaPng = document.querySelectorAll("a.png")
 
-  for (let i = 0; i < mediaJpg.length; ++i) {
-    mediaJpg[i].click()
-  }
+    for (let i = 0; i < mediaJpg.length; ++i) {
+        mediaJpg[i].click()
+    }
 
-  for (let i = 0; i < mediaPng.length; ++i) {
-    mediaPng[i].click()
-  }
+    for (let i = 0; i < mediaPng.length; ++i) {
+        mediaPng[i].click()
+    }
 }
 
 const activateLink = document.createElement("button")
